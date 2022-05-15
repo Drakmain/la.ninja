@@ -1,0 +1,4 @@
+Start time: [2022-5-15 / 18:8:10.798]
+No of args: 2
+C:\Users\Oue\AppData\Local\NVIDIA Corporation\GeForceNOW\CEF\GeForceNOWStreamer.exe
+--url-route=#?cmsId=102074111&launchSource=External&shortName=lost_ark_na_eu_steam&parentGameId=
