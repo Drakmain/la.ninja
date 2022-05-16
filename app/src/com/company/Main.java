@@ -33,12 +33,34 @@ import java.util.Map;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+
+        if (args.length == 0) {
+            new Overlay();
+        } else {
+
+        }
+
+    }
+
+    public static void log(Overlay overlay, String message) {
+        overlay.setState("State : " + message);
+        System.out.println(message);
+    }
+
+    public static void logError(Overlay overlay, String message) {
+        overlay.setError("Error " + message);
+        System.err.println("Error " + message);
+    }
+
+    public static void deamon(Overlay overlay) {
+
+    }
+
+    public static void debug(Overlay overlay, String arg) throws InterruptedException {
         long timeStart = System.currentTimeMillis();
 
-        Overlay overlay = new Overlay();
-
-        Main.log(overlay, "Start main");
+        Main.log(overlay, "Starting la.ninja debug");
 
         Screen screen = new Screen();
         Robot robot = null;
@@ -55,7 +77,7 @@ public class Main {
         /////////////////////////////
         // Launching GeForceNow
 
-        String command = System.getenv("LOCALAPPDATA") + "\\NVIDIA Corporation\\GeForceNOW\\CEF\\GeForceNOWStreamer.exe\"  --url-route=\"#?cmsId=102074111&launchSource=External&shortName=lost_ark_na_eu_steam&parentGameId=";
+        String command = System.getenv("LOCALAPPDATA") + "\\NVIDIA Corporation\\GeForceNOW\\CEF\\GeForceNOWStreamer.exe\" --url-route=\"#?cmsId=102074111&launchSource=External&shortName=lost_ark_na_eu_steam&parentGameId=";
         ProcessBuilder builder = new ProcessBuilder(command);
         try {
             builder.start();
@@ -67,7 +89,7 @@ public class Main {
         // Launching GeForceNow
         /////////////////////////////
 
-        if (!args[0].equals("skip")) {
+        if (!arg.equals("skip")) {
             Main.log(overlay, "waitForText Lost Ark Server Mokoko");
             app.waitForText("Mokoko", new Rectangle(793, 586, 58, 22));
 
@@ -97,9 +119,23 @@ public class Main {
 
             Main.log(overlay, "waitForText Lost Ark In Game Comabt");
             app.waitForText("Combat", new Rectangle(32, 1051, 55, 16));
-        }
+        } else {
+            Thread.sleep(3000);
 
-        Thread.sleep(2000);
+            if (!app.checkForText("Market", new Rectangle(924, 102, 72, 22))) {
+                Main.log(overlay, "Lost Ark Alt Y");
+                robot.mouseMove(843, 1010);
+                robot.keyPress(KeyEvent.VK_ALT);
+                Thread.sleep(200);
+                robot.keyPress(KeyEvent.VK_Y);
+                Thread.sleep(100);
+                robot.keyRelease(KeyEvent.VK_Y);
+                Thread.sleep(200);
+                robot.keyRelease(KeyEvent.VK_ALT);
+
+                Thread.sleep(2000);
+            }
+        }
 
         /////////////////////////////
         // Pulling market
@@ -118,18 +154,6 @@ public class Main {
         sectionNameMap.put("Pets", 0);
         sectionNameMap.put("Mount", 0);
         sectionNameMap.put("Gem_Chest", 0);
-
-        Main.log(overlay, "Lost Ark Alt Y");
-        robot.mouseMove(843, 1010);
-        robot.keyPress(KeyEvent.VK_ALT);
-        Thread.sleep(200);
-        robot.keyPress(KeyEvent.VK_Y);
-        Thread.sleep(100);
-        robot.keyRelease(KeyEvent.VK_Y);
-        Thread.sleep(200);
-        robot.keyRelease(KeyEvent.VK_ALT);
-
-        Thread.sleep(2000);
 
         for (Map.Entry<String, Integer> section : sectionNameMap.entrySet()) {
             if (section.getValue() == 1) {
@@ -174,22 +198,12 @@ public class Main {
         // Connection MongoDB
         /////////////////////////////
 
+        overlay.setSection("Section : ");
+        overlay.setItem("Item : ");
+        overlay.setPage("Page : ");
+
         long totalTime = System.currentTimeMillis() - timeStart;
-        Main.log(overlay, "End main, took " + totalTime + "ms");
-
-        overlay.dispose();
-
-        System.exit(0);
-    }
-
-    public static void log(Overlay overlay, String message) {
-        overlay.setState("State : " + message);
-        System.out.println(message);
-    }
-
-    public static void logError(Overlay overlay, String message) {
-        overlay.setError("Error " + message);
-        System.err.println("Error " + message);
+        Main.log(overlay, "End debug, took " + totalTime + "ms");
     }
 
 }
