@@ -22,8 +22,8 @@ public class TestCLI {
 
         for (int i = 0; i < 10; i++) {
             progres.setCharAt(i, '|');
-            int pource = (int) ((i+1)/10.0 * 100);
-            post = "] " + pource + "% (" + (i+1) + "/10)";
+            int pource = (int) ((i + 1) / 10.0 * 100);
+            post = "] " + pource + "% (" + (i + 1) + "/10)";
             System.out.print(pre + progres + post + "\r");
             Thread.sleep(1000);
         }

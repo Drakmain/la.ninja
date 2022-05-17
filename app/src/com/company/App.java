@@ -4,11 +4,8 @@ import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.InputEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 
 import static java.lang.System.currentTimeMillis;
@@ -155,7 +152,7 @@ public class App {
         System.out.println("Time taken " + totalTime + "ms");
     }
 
-    public boolean checkForText(String string, Rectangle rectangle) throws InterruptedException {
+    public boolean checkForText(String string, Rectangle rectangle) {
         String output = "";
         BufferedImageEditor screenBIE = new BufferedImageEditor();
 
@@ -167,12 +164,12 @@ public class App {
 
         try {
             output = this.instance.doOCR(screenBIE.getBufferedImage()).trim();
-            System.out.println(output);
         } catch (TesseractException e) {
             Main.logError(overlay, "TesseractException : " + e.getMessage());
             System.exit(4);
         }
 
+        System.out.println(output.contains(string));
         return output.contains(string);
     }
 }

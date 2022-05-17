@@ -122,7 +122,7 @@ public class Main {
         } else {
             Thread.sleep(3000);
 
-            if (!app.checkForText("Market", new Rectangle(924, 102, 72, 22))) {
+            if (app.checkForText("Market", new Rectangle(924, 102, 72, 22))) {
                 Main.log(overlay, "Lost Ark Alt Y");
                 robot.mouseMove(843, 1010);
                 robot.keyPress(KeyEvent.VK_ALT);
@@ -132,9 +132,18 @@ public class Main {
                 robot.keyRelease(KeyEvent.VK_Y);
                 Thread.sleep(200);
                 robot.keyRelease(KeyEvent.VK_ALT);
-
-                Thread.sleep(2000);
             }
+
+            robot.mouseMove(843, 1010);
+            robot.keyPress(KeyEvent.VK_ALT);
+            Thread.sleep(200);
+            robot.keyPress(KeyEvent.VK_Y);
+            Thread.sleep(100);
+            robot.keyRelease(KeyEvent.VK_Y);
+            Thread.sleep(200);
+            robot.keyRelease(KeyEvent.VK_ALT);
+
+            Thread.sleep(2000);
         }
 
         /////////////////////////////
@@ -201,6 +210,10 @@ public class Main {
         overlay.setSection("Section : ");
         overlay.setItem("Item : ");
         overlay.setPage("Page : ");
+
+        synchronized (overlay) {
+            overlay.notify();
+        }
 
         long totalTime = System.currentTimeMillis() - timeStart;
         Main.log(overlay, "End debug, took " + totalTime + "ms");

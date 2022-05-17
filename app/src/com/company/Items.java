@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -55,7 +57,8 @@ public class Items implements Iterable<Item> {
                     if (!e.getMessage().equals("empty String")) {
                         Main.logError(overlay, "NumberFormatException : " + this.name + "_" + i + j + " " + e.getMessage());
                         try {
-                            ImageIO.write(cropBIE.getBufferedImage(), "png", new File("./" + this.name + "_" + i + j + "_NumberFormatException.png"));
+                            Files.createDirectories(Paths.get("./Tesseract_NumberFormatException"));
+                            ImageIO.write(cropBIE.getBufferedImage(), "png", new File("./Tesseract_NumberFormatException/" + this.name + "_" + i + j + "_NumberFormatException.png"));
                         } catch (IOException ee) {
                             Main.logError(overlay, "IOException : " + ee.getMessage());
                         }
@@ -93,26 +96,23 @@ public class Items implements Iterable<Item> {
             Item.nextItem(t);
             Item.nextItem(cropRectangle);
         }
-
     }
 
     public Document toDocument() {
-        List<Document> docs = new ArrayList<>();
+        Document doc = new Document();
 
         for (Item i : this) {
-            Document doc = new Document();
-            doc.append("name", i.getName());
-            doc.append("avgDay", i.getAvgDay());
-            doc.append("recent", i.getRecent());
-            doc.append("lowest", i.getLowest());
-            docs.add(doc);
+            Document docItem = new Document();
+            docItem.append("name", i.getName());
+            docItem.append("avgDay", i.getAvgDay());
+            docItem.append("recent", i.getRecent());
+            docItem.append("lowest", i.getLowest());
+            doc.append(i.getName(), docItem);
         }
 
-        Document docFinal = new Document();
-        docFinal.append("all", docs);
-        docFinal.append("date", this.getDate());
+        doc.append("date", this.getDate());
 
-        return docFinal;
+        return doc;
     }
 
     public void add(Item item) {
@@ -132,7 +132,7 @@ public class Items implements Iterable<Item> {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<Item> iterator() {
         return list.iterator();
     }
 

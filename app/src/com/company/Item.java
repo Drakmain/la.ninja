@@ -1,7 +1,6 @@
 package com.company;
 
 import java.awt.*;
-import java.util.Iterator;
 
 public class Item {
 
@@ -9,13 +8,6 @@ public class Item {
     private float avgDay;
     private int recent;
     private int lowest;
-
-    public Item(float avgDay, int recent, int lowest) {
-        this.name = null;
-        this.avgDay = avgDay;
-        this.recent = recent;
-        this.lowest = lowest;
-    }
 
     public Item() {
         this.name = null;

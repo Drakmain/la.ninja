@@ -16,7 +16,7 @@ public class Overlay extends JFrame {
     public Overlay() {
         super("la.ninja App Overlay");
 
-        AtomicReference<Thread> thread = new AtomicReference<>();
+        AtomicReference<Thread> mainThread = new AtomicReference<>();
         AtomicReference<String> context = new AtomicReference<>("Deamon");
 
         Box menuBox = Box.createVerticalBox();
@@ -61,8 +61,6 @@ public class Overlay extends JFrame {
             optionsComboBox.setEnabled(false);
             infoBox.setVisible(true);
 
-            System.out.println(context.get());
-
             Thread t = switch (context.get()) {
                 case "Debug All" -> new Thread(() -> {
                     try {
@@ -82,22 +80,38 @@ public class Overlay extends JFrame {
                 default -> null;
             };
 
-            thread.set(t);
-            thread.get().start();
+            mainThread.set(t);
+            mainThread.get().start();
+
+            Thread con = new Thread(() -> {
+                try {
+                    synchronized (this) {
+                        this.wait();
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                this.setSize(165, 135);
+                startButton.setEnabled(true);
+                stopButton.setEnabled(false);
+                optionsComboBox.setEnabled(true);
+                infoBox.setVisible(false);
+            });
+
+            con.start();
         });
 
         stopButton.addActionListener((event) -> {
             this.setSize(165, 135);
-            thread.get().interrupt();
+            mainThread.get().interrupt();
             startButton.setEnabled(true);
             stopButton.setEnabled(false);
             optionsComboBox.setEnabled(true);
             infoBox.setVisible(false);
         });
 
-        optionsComboBox.addActionListener((event) -> {
-            context.set((String) optionsComboBox.getSelectedItem());
-        });
+        optionsComboBox.addActionListener((event) -> context.set((String) optionsComboBox.getSelectedItem()));
 
         menuBox.add(optionsComboBox);
         menuBox.add(Box.createRigidArea(new Dimension(0, 5)));

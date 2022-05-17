@@ -3,3 +3,5 @@ la.ninja.iml
 .idea/
 
 proxy_app_logs.txt
+
+Tesseract_NumberFormatException/
