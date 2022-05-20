@@ -35,6 +35,7 @@ public class Items implements Iterable<Item> {
         BufferedImageEditor cropBIE = new BufferedImageEditor();
         Item item;
         float f = 0;
+        String temp;
 
         screenBIE.invertColors();
 
@@ -49,7 +50,13 @@ public class Items implements Iterable<Item> {
                 cropBIE.getScaledInstance(4);
 
                 try {
-                    f = Float.parseFloat(instance.doOCR(cropBIE.getBufferedImage()));
+                    temp = instance.doOCR(cropBIE.getBufferedImage());
+
+                    if (temp.contains(",")) {
+                        temp = temp.replace(",", "");
+                    }
+
+                    f = Float.parseFloat(temp);
                 } catch (TesseractException e) {
                     Main.logError(overlay, "TesseractException : " + e.getMessage());
                 } catch (NumberFormatException e) {

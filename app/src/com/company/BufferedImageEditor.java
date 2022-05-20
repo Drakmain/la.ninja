@@ -23,7 +23,7 @@ public class BufferedImageEditor {
 
     public void getScaledInstance(int scale) {
         BufferedImage resized = new BufferedImage(this.getBufferedImage().getWidth() * scale, this.getBufferedImage().getHeight() * scale, BufferedImage.TYPE_INT_RGB);
-        Image scaled = this.getBufferedImage().getScaledInstance(this.getBufferedImage().getWidth() * scale, this.getBufferedImage().getHeight() * scale, java.awt.Image.SCALE_SMOOTH);
+        Image scaled = this.getBufferedImage().getScaledInstance(this.getBufferedImage().getWidth() * scale, this.getBufferedImage().getHeight() * scale, Image.SCALE_DEFAULT);
         resized.getGraphics().drawImage(scaled, 0, 0, null);
         this.setBufferedImage(resized);
     }
@@ -46,11 +46,7 @@ public class BufferedImageEditor {
                     c = new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue());
                     this.bufferedImage.setRGB(j, i, c.getRGB());
                 }
-
             }
-
         }
-
     }
-
 }

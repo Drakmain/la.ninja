@@ -76,7 +76,13 @@ public class Overlay extends JFrame {
                         Main.logError(this, "InterruptedException : " + e.getMessage());
                     }
                 });
-                case "Deamon" -> new Thread(() -> Main.deamon(this));
+                case "Deamon" -> new Thread(() -> {
+                    try {
+                        Main.deamon(this);
+                    } catch (InterruptedException e) {
+                        Main.logError(this, "InterruptedException : " + e.getMessage());
+                    }
+                });
                 default -> null;
             };
 
