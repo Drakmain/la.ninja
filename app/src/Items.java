@@ -1,5 +1,3 @@
-package com.company;
-
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.bson.Document;

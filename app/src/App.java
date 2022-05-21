@@ -1,5 +1,3 @@
-package com.company;
-
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -19,7 +17,7 @@ public class App {
 
     public App(Overlay overlay, Robot robot, Screen screen) {
         this.instance = new Tesseract();
-        this.instance.setDatapath(".\\app\\tessdata");
+        this.instance.setDatapath(".\\tessdata");
 
         this.screen = screen;
         this.robot = robot;
