@@ -327,7 +327,7 @@ public class Main {
         String[] env = new String[0];
 
         try {
-            File file = new File("./app/.env");
+            File file = new File(".env");
             BufferedReader br = new BufferedReader(new FileReader(file));
             env = br.readLine().split("=");
         } catch (IOException e) {
