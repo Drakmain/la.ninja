@@ -36,6 +36,9 @@ public class Items implements Iterable<Item> {
         float f = 0;
         String temp;
 
+        screenNumberBIE.invertColorsNumber();
+        screenStringBIE.invertColorsString();
+
         for (int i = 0; i < 10; i++) {
             item = new Item();
 
@@ -49,8 +52,14 @@ public class Items implements Iterable<Item> {
                 try {
                     temp = instance.doOCR(cropBIE.getBufferedImage());
 
+                    // Remove of the thousands separator
                     if (temp.contains(",")) {
                         temp = temp.replace(",", "");
+                    }
+
+                    // Recurrent misreading
+                    if (temp.contains("f.7")) {
+                        temp = "7.7";
                     }
 
                     f = Float.parseFloat(temp);

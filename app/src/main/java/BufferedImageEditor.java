@@ -21,7 +21,7 @@ public class BufferedImageEditor {
 
     public void getScaledInstance(int scale) {
         BufferedImage resized = new BufferedImage(this.getBufferedImage().getWidth() * scale, this.getBufferedImage().getHeight() * scale, BufferedImage.TYPE_INT_RGB);
-        Image scaled = this.getBufferedImage().getScaledInstance(this.getBufferedImage().getWidth() * scale, this.getBufferedImage().getHeight() * scale, Image.SCALE_DEFAULT);
+        Image scaled = this.getBufferedImage().getScaledInstance(this.getBufferedImage().getWidth() * scale, this.getBufferedImage().getHeight() * scale, Image.SCALE_SMOOTH);
         resized.getGraphics().drawImage(scaled, 0, 0, null);
         this.setBufferedImage(resized);
     }
