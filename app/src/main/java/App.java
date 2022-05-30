@@ -4,11 +4,6 @@ import net.sourceforge.tess4j.TesseractException;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.sql.Timestamp;
-import java.util.Date;
-
-import static java.lang.System.currentTimeMillis;
 
 public class App {
 
@@ -66,7 +61,7 @@ public class App {
             Main.log(this.overlay, "Lost Ark " + items.getName() + " : Start Pulling Page " + i + 1);
             this.overlay.setPage("Page : " + (i + 1) + "/" + page);
 
-            items.pull(this.screen.shot(this.robot), this.instance, this.overlay);
+            items.pull(this.screen.shot(this.robot), this.screen.shot(this.robot), this.instance, this.overlay);
 
             this.robot.mouseMove(1147, 899);
             Thread.sleep(rand(100, 150));
@@ -103,7 +98,7 @@ public class App {
 
         screenBIE.setBufferedImage(this.screen.shot(this.robot));
 
-        screenBIE.invertColors();
+        screenBIE.invertColorsNumber();
 
         screenBIE.setBufferedImage(screenBIE.crop(rectangle));
 
@@ -132,7 +127,7 @@ public class App {
 
             screenBIE.setBufferedImage(this.screen.shot(this.robot));
 
-            screenBIE.invertColors();
+            screenBIE.invertColorsString();
 
             screenBIE.setBufferedImage(screenBIE.crop(rectangle));
 
@@ -158,7 +153,7 @@ public class App {
 
         screenBIE.setBufferedImage(this.screen.shot(this.robot));
 
-        screenBIE.invertColors();
+        screenBIE.invertColorsString();
 
         screenBIE.setBufferedImage(screenBIE.crop(rectangle));
 

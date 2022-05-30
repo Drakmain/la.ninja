@@ -1,9 +1,6 @@
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.TesseractException;
-import org.bson.BsonDateTime;
-import org.bson.BsonTimestamp;
 import org.bson.Document;
-import org.bson.codecs.BsonDateTimeCodec;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,8 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -31,16 +26,15 @@ public class Items implements Iterable<Item> {
         list = new ArrayList<>();
     }
 
-    public void pull(BufferedImage screenBI, ITesseract instance, Overlay overlay) {
+    public void pull(BufferedImage screen1, BufferedImage screen2, ITesseract instance, Overlay overlay) {
         Rectangle cropRectangle = new Rectangle(909, 307, 133, 51);
         Rectangle t = new Rectangle(605, 309, 291, 46);
-        BufferedImageEditor screenBIE = new BufferedImageEditor(screenBI);
+        BufferedImageEditor screenNumberBIE = new BufferedImageEditor(screen1);
+        BufferedImageEditor screenStringBIE = new BufferedImageEditor(screen2);
         BufferedImageEditor cropBIE = new BufferedImageEditor();
         Item item;
         float f = 0;
         String temp;
-
-        screenBIE.invertColors();
 
         for (int i = 0; i < 10; i++) {
             item = new Item();
@@ -48,7 +42,7 @@ public class Items implements Iterable<Item> {
             for (int j = 0; j < 3; j++) {
                 overlay.setItem("Item : " + i + j);
 
-                cropBIE.setBufferedImage(screenBIE.crop(cropRectangle));
+                cropBIE.setBufferedImage(screenNumberBIE.crop(cropRectangle));
 
                 cropBIE.getScaledInstance(4);
 
@@ -92,7 +86,7 @@ public class Items implements Iterable<Item> {
                 }
             }
 
-            cropBIE.setBufferedImage(screenBIE.crop(t));
+            cropBIE.setBufferedImage(screenStringBIE.crop(t));
 
             try {
                 String[] oue = instance.doOCR(cropBIE.getBufferedImage()).split("\n");

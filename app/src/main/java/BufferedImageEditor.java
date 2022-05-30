@@ -30,14 +30,32 @@ public class BufferedImageEditor {
         return this.bufferedImage.getSubimage(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
 
-    public void invertColors() {
+    public void invertColorsString() {
         Color c;
 
         for (int i = 0; i < this.bufferedImage.getHeight(); i++) {
             for (int j = 0; j < this.bufferedImage.getWidth(); j++) {
                 int p = this.bufferedImage.getRGB(j, i);
                 c = new Color(p);
-                if ((c.getRed() > 0 && c.getRed() < 75) && (c.getBlue() > 0 && c.getBlue() < 75) && (c.getGreen() > 0 && c.getGreen() < 75)) {
+                if ((c.getRed() > 0 && c.getRed() < 85) && (c.getBlue() > 0 && c.getBlue() < 85) && (c.getGreen() > 0 && c.getGreen() < 85)) {
+                    c = new Color(255, 255, 255);
+                    this.bufferedImage.setRGB(j, i, c.getRGB());
+                } else {
+                    c = new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue());
+                    this.bufferedImage.setRGB(j, i, c.getRGB());
+                }
+            }
+        }
+    }
+
+    public void invertColorsNumber() {
+        Color c;
+
+        for (int i = 0; i < this.bufferedImage.getHeight(); i++) {
+            for (int j = 0; j < this.bufferedImage.getWidth(); j++) {
+                int p = this.bufferedImage.getRGB(j, i);
+                c = new Color(p);
+                if ((c.getRed() > 0 && c.getRed() < 35) && (c.getBlue() > 0 && c.getBlue() < 35) && (c.getGreen() > 0 && c.getGreen() < 35)) {
                     c = new Color(255, 255, 255);
                     this.bufferedImage.setRGB(j, i, c.getRGB());
                 } else {

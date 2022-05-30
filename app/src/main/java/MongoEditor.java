@@ -1,22 +1,19 @@
 import com.mongodb.*;
 import com.mongodb.client.*;
-import com.mongodb.client.model.Filters;
 import org.bson.BsonDateTime;
-import org.bson.BsonString;
 import org.bson.Document;
-import static com.mongodb.client.model.Filters.*;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.mongodb.client.model.Filters.gte;
 
 public class MongoEditor {
 

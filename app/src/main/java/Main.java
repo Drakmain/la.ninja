@@ -250,25 +250,17 @@ public class Main {
             app.waitForText("Mokoko", new Rectangle(793, 586, 58, 22));
 
             Main.log(overlay, "Lost Ark Enter");
-            robot.mouseMove(943, 920);
-            Thread.sleep(150);
-            robot.mouseMove(945, 922);
-            Thread.sleep(150);
-            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-            Thread.sleep(150);
-            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            Thread.sleep(200);
+            robot.keyRelease(KeyEvent.VK_ENTER);
 
             Main.log(overlay, "waitForText Lost Ark Launch");
             app.waitForText("Launch", new Rectangle(819, 1000, 66, 33));
 
             Main.log(overlay, "Lost Ark Launch");
-            robot.mouseMove(843, 1010);
-            Thread.sleep(150);
-            robot.mouseMove(845, 1012);
-            Thread.sleep(150);
-            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-            Thread.sleep(150);
-            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+            robot.keyPress(KeyEvent.VK_ENTER);
+            Thread.sleep(200);
+            robot.keyRelease(KeyEvent.VK_ENTER);
 
             Main.log(overlay, "waitForText Lost Ark In Game Comabt");
             app.waitForText("Combat", new Rectangle(32, 1051, 55, 16));
