@@ -15,9 +15,7 @@ import java.util.stream.StreamSupport;
 public class ApiApplication extends Application {
 
     public static MongoCollection<Document> connect(String databaseName, String collectionName) throws IllegalArgumentException {
-        String password = System.getenv("MANGODB_PASSWORD");
-
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://Drakmain:" + password + "@economy.qqflq.mongodb.net");
+        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
         MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connectionString).serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
         MongoClient mongoClient = MongoClients.create(settings);
         MongoDatabase marketDatabase = mongoClient.getDatabase(databaseName);
