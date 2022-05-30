@@ -1,6 +1,9 @@
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.TesseractException;
+import org.bson.BsonDateTime;
+import org.bson.BsonTimestamp;
 import org.bson.Document;
+import org.bson.codecs.BsonDateTimeCodec;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -20,9 +25,9 @@ public class Items implements Iterable<Item> {
     private final String name;
     private final List<Item> list;
 
-    public Items(Date date, String name) {
+    public Items(String name) {
         this.name = name;
-        this.date = date;
+        this.date = new Date(System.currentTimeMillis());
         list = new ArrayList<>();
     }
 
@@ -57,6 +62,7 @@ public class Items implements Iterable<Item> {
                     f = Float.parseFloat(temp);
                 } catch (TesseractException e) {
                     Main.logError(overlay, "TesseractException : " + e.getMessage());
+                    System.exit(4);
                 } catch (NumberFormatException e) {
                     f = 0;
                     if (!e.getMessage().equals("empty String")) {
@@ -96,6 +102,7 @@ public class Items implements Iterable<Item> {
                 }
             } catch (TesseractException e) {
                 Main.logError(overlay, "TesseractException : " + e.getMessage());
+                System.exit(4);
             }
 
             Item.nextItem(t);
@@ -108,14 +115,13 @@ public class Items implements Iterable<Item> {
 
         for (Item i : this) {
             Document docItem = new Document();
-            docItem.append("name", i.getName());
-            docItem.append("avgDay", i.getAvgDay());
-            docItem.append("recent", i.getRecent());
-            docItem.append("lowest", i.getLowest());
-            doc.append(i.getName(), docItem);
+            docItem.put("avgDay", i.getAvgDay());
+            docItem.put("recent", i.getRecent());
+            docItem.put("lowest", i.getLowest());
+            doc.put(i.getName(), docItem);
         }
 
-        doc.append("date", this.getDate());
+        doc.put("date", date);
 
         return doc;
     }

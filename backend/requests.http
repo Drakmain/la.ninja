@@ -1,0 +1,39 @@
+### Checking existing Collection
+// @no-log
+GET http://localhost:8080/backend_war_exploded/api/market/Enhancement_Material
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+### Checking existing Item
+// @no-log
+GET http://localhost:8080/backend_war_exploded/api/market/Enhancement_Material/Destruction%20Stone%20Fragment
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+### Checking non existant Collection
+// @no-log
+GET http://localhost:8080/backend_war_exploded/api/market/NonExistant
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}
+
+### Checking non existant Item
+// @no-log
+GET http://localhost:8080/backend_war_exploded/api/market/Enhancement_Material/NonExistant
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 404, "Response status is not 404");
+});
+%}

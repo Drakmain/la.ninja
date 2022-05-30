@@ -1,12 +1,6 @@
 # Compiled class file
 *.class
 
-# .env
-.env
-
-# idea
-app.iml
-
 proxy_app_logs.txt
 
 Tesseract_NumberFormatException/

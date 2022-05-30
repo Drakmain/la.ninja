@@ -11,16 +11,11 @@ import org.bson.Document;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import static java.lang.System.currentTimeMillis;
+import java.util.Map;
 
 // exit code :
 // 1 : No .env file (IOException)
@@ -101,8 +96,6 @@ public class Main {
         Main.log(overlay, "waitForText Lost Ark Server Mokoko");
         app.waitForText("Mokoko", new Rectangle(793, 586, 58, 22));
 
-        Thread.sleep(1000);
-
         Main.log(overlay, "Lost Ark Enter");
         robot.mouseMove(943, 920);
         Thread.sleep(150);
@@ -112,7 +105,8 @@ public class Main {
         Thread.sleep(150);
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 
-        Thread.sleep(10000);
+        Main.log(overlay, "waitForText Lost Ark Launch");
+        app.waitForText("Launch", new Rectangle(819, 1000, 66, 33));
 
         Main.log(overlay, "Lost Ark Launch");
         robot.mouseMove(843, 1010);
@@ -123,12 +117,24 @@ public class Main {
         Thread.sleep(150);
         robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 
-        Thread.sleep(20000);
-
         Main.log(overlay, "waitForText Lost Ark In Game Comabt");
         app.waitForText("Combat", new Rectangle(32, 1051, 55, 16));
 
         Thread.sleep(3000);
+
+        Main.log(overlay, "Lost Ark Escape Pop Up");
+        do {
+            robot.keyPress(KeyEvent.VK_ESCAPE);
+            Thread.sleep(200);
+            robot.keyRelease(KeyEvent.VK_ESCAPE);
+            Thread.sleep(1000);
+        } while (!app.checkForText("Game Menu", new Rectangle(1024, 282, 117, 19)));
+
+        robot.keyPress(KeyEvent.VK_ESCAPE);
+        Thread.sleep(200);
+        robot.keyRelease(KeyEvent.VK_ESCAPE);
+
+        Thread.sleep(1000);
 
         Main.log(overlay, "Lost Ark Alt Y");
         robot.mouseMove(843, 1010);
@@ -140,7 +146,7 @@ public class Main {
         Thread.sleep(200);
         robot.keyRelease(KeyEvent.VK_ALT);
 
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         while (exe) {
 
@@ -161,20 +167,9 @@ public class Main {
             /////////////////////////////
             // Connection MongoDB + Insert into Market Database
 
-            String[] env = new String[0];
+            //String password = URLEncoder.encode(, StandardCharsets.UTF_8);
 
-            try {
-                File file = new File(".env");
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                env = br.readLine().split("=");
-            } catch (IOException e) {
-                Main.logError(overlay, "IOException : " + e.getMessage());
-                System.exit(1);
-            }
-
-            String password = URLEncoder.encode(env[1], StandardCharsets.UTF_8);
-
-            ConnectionString connectionString = new ConnectionString("mongodb+srv://Drakmain:" + password + "@economy.qqflq.mongodb.net");
+            ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
             MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connectionString).serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
             MongoClient mongoClient = MongoClients.create(settings);
             MongoDatabase marketDatabase = mongoClient.getDatabase("Market");
@@ -254,8 +249,6 @@ public class Main {
             Main.log(overlay, "waitForText Lost Ark Server Mokoko");
             app.waitForText("Mokoko", new Rectangle(793, 586, 58, 22));
 
-            Thread.sleep(1000);
-
             Main.log(overlay, "Lost Ark Enter");
             robot.mouseMove(943, 920);
             Thread.sleep(150);
@@ -265,7 +258,8 @@ public class Main {
             Thread.sleep(150);
             robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 
-            Thread.sleep(10000);
+            Main.log(overlay, "waitForText Lost Ark Launch");
+            app.waitForText("Launch", new Rectangle(819, 1000, 66, 33));
 
             Main.log(overlay, "Lost Ark Launch");
             robot.mouseMove(843, 1010);
@@ -276,10 +270,24 @@ public class Main {
             Thread.sleep(150);
             robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 
-            Thread.sleep(20000);
-
             Main.log(overlay, "waitForText Lost Ark In Game Comabt");
             app.waitForText("Combat", new Rectangle(32, 1051, 55, 16));
+
+            Thread.sleep(3000);
+
+            Main.log(overlay, "Lost Ark Escape Pop Up");
+            do {
+                robot.keyPress(KeyEvent.VK_ESCAPE);
+                Thread.sleep(200);
+                robot.keyRelease(KeyEvent.VK_ESCAPE);
+                Thread.sleep(1000);
+            } while (!app.checkForText("Game Menu", new Rectangle(1024, 282, 117, 19)));
+
+            robot.keyPress(KeyEvent.VK_ESCAPE);
+            Thread.sleep(200);
+            robot.keyRelease(KeyEvent.VK_ESCAPE);
+
+            Thread.sleep(1000);
         } else {
             Thread.sleep(3000);
 
@@ -294,18 +302,18 @@ public class Main {
                 Thread.sleep(200);
                 robot.keyRelease(KeyEvent.VK_ALT);
             }
-
-            robot.mouseMove(843, 1010);
-            robot.keyPress(KeyEvent.VK_ALT);
-            Thread.sleep(200);
-            robot.keyPress(KeyEvent.VK_Y);
-            Thread.sleep(100);
-            robot.keyRelease(KeyEvent.VK_Y);
-            Thread.sleep(200);
-            robot.keyRelease(KeyEvent.VK_ALT);
-
-            Thread.sleep(2000);
         }
+
+        robot.mouseMove(843, 1010);
+        robot.keyPress(KeyEvent.VK_ALT);
+        Thread.sleep(200);
+        robot.keyPress(KeyEvent.VK_Y);
+        Thread.sleep(100);
+        robot.keyRelease(KeyEvent.VK_Y);
+        Thread.sleep(200);
+        robot.keyRelease(KeyEvent.VK_ALT);
+
+        Thread.sleep(2000);
 
         /////////////////////////////
         // Pulling market
@@ -324,20 +332,9 @@ public class Main {
         /////////////////////////////
         // Connection MongoDB
 
-        String[] env = new String[0];
+        //String password = URLEncoder.encode(, StandardCharsets.UTF_8);
 
-        try {
-            File file = new File(".env");
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            env = br.readLine().split("=");
-        } catch (IOException e) {
-            Main.logError(overlay, "IOException : " + e.getMessage());
-            System.exit(1);
-        }
-
-        String password = URLEncoder.encode(env[1], StandardCharsets.UTF_8);
-
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://Drakmain:" + password + "@economy.qqflq.mongodb.net");
+        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
         MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connectionString).serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
         MongoClient mongoClient = MongoClients.create(settings);
         MongoDatabase marketDatabase = mongoClient.getDatabase("Market");

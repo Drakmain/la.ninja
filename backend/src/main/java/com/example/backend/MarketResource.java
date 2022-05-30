@@ -1,6 +1,5 @@
 package com.example.backend;
 
-import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
@@ -25,10 +24,10 @@ public class MarketResource {
 
         // Testing if collection exist
         try {
-            collection = ApiApplication.connect(section);
-        } catch (MongoException e) {
-            System.err.println("Error MongoException : " + e.getMessage());
-            throw new WebApplicationException("Error MongoException : " + e.getMessage(), Response.Status.NOT_FOUND);
+            collection = ApiApplication.connect("Market", section);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error IllegalArgumentException : " + e.getMessage());
+            throw new WebApplicationException("Error IllegalArgumentException : " + e.getMessage(), Response.Status.NOT_FOUND);
         }
 
         // Testing if collection is empty
@@ -68,9 +67,9 @@ public class MarketResource {
 
         // Testing if collection exist
         try {
-            collection = ApiApplication.connect(section);
-        } catch (MongoException e) {
-            System.err.println("Error MongoException : " + e.getMessage());
+            collection = ApiApplication.connect("Market", section);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error IllegalArgumentException : " + e.getMessage());
             throw new WebApplicationException("Error 404 Not Found : " + e.getMessage(), Response.Status.NOT_FOUND);
         }
 

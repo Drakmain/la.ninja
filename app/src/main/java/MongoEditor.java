@@ -1,14 +1,21 @@
 import com.mongodb.*;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
+import org.bson.BsonDateTime;
+import org.bson.BsonString;
 import org.bson.Document;
+import static com.mongodb.client.model.Filters.*;
 
-import java.io.*;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MongoEditor {
@@ -20,20 +27,9 @@ public class MongoEditor {
     private final List<String> sectionName;
 
     public MongoEditor() {
-        String[] env = new String[0];
+        //String password = URLEncoder.encode(, StandardCharsets.UTF_8);
 
-        try {
-            File file = new File("./app/.env");
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            env = br.readLine().split("=");
-        } catch (IOException e) {
-            System.err.println("Error : IOException" + e.getMessage());
-            System.exit(1);
-        }
-
-        String password = URLEncoder.encode(env[1], StandardCharsets.UTF_8);
-
-        ConnectionString connectionString = new ConnectionString("mongodb+srv://Drakmain:" + password + "@economy.qqflq.mongodb.net");
+        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
         MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connectionString).serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
         mongoClient = MongoClients.create(settings);
         marketDatabase = mongoClient.getDatabase("Market");
@@ -66,6 +62,7 @@ public class MongoEditor {
                     1) Create all collection default for Market database.
                     2) Delete all collection for Market database.
                     3) Reset all collection for Market database.
+                    4) Test.
                     0) Exit App.
                     Pick a number :\s""");
 
@@ -86,6 +83,30 @@ public class MongoEditor {
                     System.out.println();
                     mongoEditor.create();
                     System.out.println("Reset done\n");
+                }
+                case "4" -> {
+                    MongoCollection<Document> Enhancement_Material = mongoEditor.marketDatabase.getCollection("Enhancement_Material");
+
+                    FindIterable<Document> findIterable = Enhancement_Material.find(new Document());
+                    findIterable.forEach(System.out::println);
+
+                    System.out.println();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH");
+                    Date date;
+                    try {
+                        date = dateFormat.parse("2022-05-30 17");
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    BsonDateTime bsonDateTime = new BsonDateTime(date.getTime());
+
+                    Timestamp timestamp = new Timestamp(bsonDateTime.getValue());
+
+                    FindIterable<Document> oue = Enhancement_Material.find(gte("date", bsonDateTime));
+                    oue.forEach(System.out::println);
+                    System.out.println("Test done\n");
                 }
                 default -> System.out.println("Number not available");
             }

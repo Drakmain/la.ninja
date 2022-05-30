@@ -4,6 +4,8 @@ import net.sourceforge.tess4j.TesseractException;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import static java.lang.System.currentTimeMillis;
@@ -33,7 +35,7 @@ public class App {
         Main.log(this.overlay, "Lost Ark " + name + " : Start Pulling Section");
         this.overlay.setSection("Section : " + name);
 
-        Items items = new Items(new Date(currentTimeMillis()), name);
+        Items items = new Items(name);
         int page;
 
         Main.log(this.overlay, "Lost Ark " + name + " : Open");
@@ -167,7 +169,6 @@ public class App {
             System.exit(4);
         }
 
-        System.out.println(output.contains(string));
         return output.contains(string);
     }
 }
