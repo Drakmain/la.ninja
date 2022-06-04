@@ -11,14 +11,6 @@ public class BufferedImageEditor {
     public BufferedImageEditor() {
     }
 
-    public BufferedImage getBufferedImage() {
-        return bufferedImage;
-    }
-
-    public void setBufferedImage(BufferedImage bi) {
-        this.bufferedImage = bi;
-    }
-
     public void getScaledInstance(int scale) {
         BufferedImage resized = new BufferedImage(this.getBufferedImage().getWidth() * scale, this.getBufferedImage().getHeight() * scale, BufferedImage.TYPE_INT_RGB);
         Image scaled = this.getBufferedImage().getScaledInstance(this.getBufferedImage().getWidth() * scale, this.getBufferedImage().getHeight() * scale, Image.SCALE_SMOOTH);
@@ -64,5 +56,13 @@ public class BufferedImageEditor {
                 }
             }
         }
+    }
+
+    public BufferedImage getBufferedImage() {
+        return bufferedImage;
+    }
+
+    public void setBufferedImage(BufferedImage bi) {
+        this.bufferedImage = bi;
     }
 }

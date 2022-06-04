@@ -30,6 +30,11 @@ public class Item {
         rectangle.setRect(1241, rectangle.y, 122, 51);
     }
 
+    @Override
+    public String toString() {
+        return "Item{" + "name='" + name + '\'' + ", avgDay=" + avgDay + ", recent=" + recent + ", lowest=" + lowest + '}';
+    }
+
     public String getName() {
         return name;
     }
@@ -61,10 +66,4 @@ public class Item {
     public void setRecent(int recent) {
         this.recent = recent;
     }
-
-    @Override
-    public String toString() {
-        return "Item{" + "name='" + name + '\'' + ", avgDay=" + avgDay + ", recent=" + recent + ", lowest=" + lowest + '}';
-    }
-
 }

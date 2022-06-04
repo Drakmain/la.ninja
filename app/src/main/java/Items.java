@@ -16,8 +16,8 @@ import java.util.List;
 
 public class Items implements Iterable<Item> {
 
-    private final Date date;
     private final String name;
+    private final Date date;
     private final List<Item> list;
 
     public Items(String name) {
@@ -64,17 +64,17 @@ public class Items implements Iterable<Item> {
 
                     f = Float.parseFloat(temp);
                 } catch (TesseractException e) {
-                    Main.logError(overlay, "TesseractException : " + e.getMessage());
+                    overlay.logError("TesseractException : " + e.getMessage());
                     System.exit(4);
                 } catch (NumberFormatException e) {
                     f = 0;
                     if (!e.getMessage().equals("empty String")) {
-                        Main.logError(overlay, "NumberFormatException : " + this.name + "_" + i + j + " " + e.getMessage());
+                        overlay.logError("NumberFormatException : " + this.name + "_" + i + j + " " + e.getMessage());
                         try {
-                            Files.createDirectories(Paths.get("./Tesseract_NumberFormatException"));
-                            ImageIO.write(cropBIE.getBufferedImage(), "png", new File("./Tesseract_NumberFormatException/" + this.name + "_" + i + j + "_NumberFormatException.png"));
+                            Files.createDirectories(Paths.get(".\\Tesseract_NumberFormatException"));
+                            ImageIO.write(cropBIE.getBufferedImage(), "png", new File(".\\Tesseract_NumberFormatException\\" + this.name + "_" + i + j + "_NumberFormatException.png"));
                         } catch (IOException ee) {
-                            Main.logError(overlay, "IOException : " + ee.getMessage());
+                            overlay.logError("IOException : " + ee.getMessage());
                         }
                     }
                 }
@@ -104,7 +104,7 @@ public class Items implements Iterable<Item> {
                     this.add(item);
                 }
             } catch (TesseractException e) {
-                Main.logError(overlay, "TesseractException : " + e.getMessage());
+                overlay.logError("TesseractException : " + e.getMessage());
                 System.exit(4);
             }
 
@@ -129,6 +129,28 @@ public class Items implements Iterable<Item> {
         return doc;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append("Items : ").append(this.getName());
+        string.append("\n");
+
+        string.append("Date : ").append(this.getDate());
+        string.append("\n");
+
+        for (Item i : this) {
+            string.append(i).append("\n");
+        }
+
+        string.append("Size : ").append(this.getList().size());
+        return string.toString();
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return list.iterator();
+    }
+
     public void add(Item item) {
         this.list.add(item);
     }
@@ -143,25 +165,5 @@ public class Items implements Iterable<Item> {
 
     public List<Item> getList() {
         return list;
-    }
-
-    @Override
-    public Iterator<Item> iterator() {
-        return list.iterator();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder string = new StringBuilder();
-        string.append("Date : ").append(this.getDate());
-        string.append("\n");
-
-        string.append("Items : \n");
-        for (Item i : this) {
-            string.append(i).append("\n");
-        }
-
-        string.append("Size : ").append(this.getList().size());
-        return string.toString();
     }
 }

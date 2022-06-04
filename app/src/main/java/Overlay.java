@@ -62,23 +62,23 @@ public class Overlay extends JFrame {
             Thread t = switch (context.get()) {
                 case "Debug All" -> new Thread(() -> {
                     try {
-                        Main.debug(this, "");
+                        App.debug(this, "");
                     } catch (InterruptedException e) {
-                        System.err.println("Error InterruptedException : " + e.getMessage());
+                        this.logError("InterruptedException : " + e.getMessage());
                     }
                 });
                 case "Debug Skip" -> new Thread(() -> {
                     try {
-                        Main.debug(this, "skip");
+                        App.debug(this, "skip");
                     } catch (InterruptedException e) {
-                        Main.logError(this, "InterruptedException : " + e.getMessage());
+                        this.logError("InterruptedException : " + e.getMessage());
                     }
                 });
                 case "Deamon" -> new Thread(() -> {
                     try {
-                        Main.deamon(this);
+                        App.deamon(this);
                     } catch (InterruptedException e) {
-                        Main.logError(this, "InterruptedException : " + e.getMessage());
+                        this.logError("InterruptedException : " + e.getMessage());
                     }
                 });
                 default -> null;
@@ -172,6 +172,16 @@ public class Overlay extends JFrame {
 
         // Size Settings
         /////////////////////////////
+    }
+
+    public void log(String message) {
+        this.setState("State : " + message);
+        System.out.println(message);
+    }
+
+    public void logError(String message) {
+        this.setError("Error " + message);
+        System.err.println("Error " + message);
     }
 
     public void setState(String label) {
