@@ -1,4 +1,4 @@
-package com.example.backend;
+package ninja.la.backend;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -15,6 +15,7 @@ import java.util.stream.StreamSupport;
 public class ApiApplication extends Application {
 
     public static MongoCollection<Document> connect(String databaseName, String collectionName) throws IllegalArgumentException {
+
         ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
         MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connectionString).serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();
         MongoClient mongoClient = MongoClients.create(settings);
@@ -22,8 +23,7 @@ public class ApiApplication extends Application {
 
         MongoIterable<String> mongoIterable = marketDatabase.listCollectionNames();
 
-        boolean answer = StreamSupport.stream(mongoIterable.spliterator(), false)
-                .anyMatch(n -> n.equals(collectionName));
+        boolean answer = StreamSupport.stream(mongoIterable.spliterator(), false).anyMatch(n -> n.equals(collectionName));
 
         if (answer) {
             return marketDatabase.getCollection(collectionName);
