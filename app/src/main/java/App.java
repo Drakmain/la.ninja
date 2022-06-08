@@ -2,10 +2,7 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -19,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public class App {
 
@@ -36,14 +35,14 @@ public class App {
         marketSectionNameMap.put("Skin", 0);
         marketSectionNameMap.put("Engraving_Recipe", 0);
         marketSectionNameMap.put("Enhancement_Material", 1);
-        marketSectionNameMap.put("Combat_Supplies", 1);
-        marketSectionNameMap.put("Cooking", 1);
-        marketSectionNameMap.put("Trader", 1);
-        marketSectionNameMap.put("Adventurer_Tome", 1);
-        marketSectionNameMap.put("Sailing", 1);
-        marketSectionNameMap.put("Pets", 1);
-        marketSectionNameMap.put("Mount", 1);
-        marketSectionNameMap.put("Gem_Chest", 1);
+        marketSectionNameMap.put("Combat_Supplies", 0);
+        marketSectionNameMap.put("Cooking", 0);
+        marketSectionNameMap.put("Trader", 0);
+        marketSectionNameMap.put("Adventurer_Tome", 0);
+        marketSectionNameMap.put("Sailing", 0);
+        marketSectionNameMap.put("Pets", 0);
+        marketSectionNameMap.put("Mount", 0);
+        marketSectionNameMap.put("Gem_Chest", 0);
 
         this.screen = screen;
         this.robot = robot;
@@ -309,6 +308,19 @@ public class App {
             MongoCollection<Document> collection = marketDatabase.getCollection(items.getName());
 
             collection.insertOne(items.toDocument());
+        }
+
+        MongoCollection<Document> nameList = marketDatabase.getCollection("Name_List");
+
+        for (Items items : sectionItemsList) {
+            FindIterable<Document> findIterable = nameList.find(eq("section", items.getName()));
+            Document d = findIterable.first();
+            for (Item item : items) {
+                if (!d.containsKey(item.getName())) {
+                    d.put(String.valueOf(d.size() - 3 + 1), item.getName());
+                }
+            }
+            nameList.replaceOne(eq("section", items.getName()), d);
         }
 
         mongoClient.close();

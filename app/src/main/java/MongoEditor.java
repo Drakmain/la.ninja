@@ -126,9 +126,16 @@ public class MongoEditor {
             MongoCollection<Document> collection = marketDatabase.getCollection(name);
             collection.drop();
         }
+
+        System.out.println("Dropping Collection : " + "Name_List");
+        MongoCollection<Document> collection = marketDatabase.getCollection("Name_List");
+        collection.drop();
     }
 
     public void create() {
+        marketDatabase.createCollection("Name_List");
+        MongoCollection<Document> nameList = marketDatabase.getCollection("Name_List");
+
         for (String name : sectionName) {
             try {
                 marketDatabase.createCollection(name);
@@ -136,6 +143,9 @@ public class MongoEditor {
             } catch (MongoCommandException e) {
                 System.err.println("Error : MongoCommandException " + e.getMessage());
             }
+            Document d = new Document();
+            d.put("section", name);
+            nameList.insertOne(d);
         }
     }
 }

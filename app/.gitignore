@@ -5,6 +5,9 @@ proxy_app_logs.txt
 
 Tesseract_NumberFormatException/
 
+# target
+target/
+
 # .out
 out/
 
