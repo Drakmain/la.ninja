@@ -3,9 +3,9 @@
 <div class="container">
     <div class="row justify-content-start">
         <div class="col-3">
-            <h2>Section</h2>
+            <h2>Market</h2>
             <ul *ngFor="let section of market" class="list-group m-1">
-                <li class="list-group-item">{{section}}</li>
+                <li type="button" role="button" (click)="selectSection(section)" class="list-group-item">{{section}}</li>
             </ul>
         </div>
         <div class="col-8">

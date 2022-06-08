@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+*{
+    /*border: dashed red 1px;*/
+}
+
+body {
+    background-color: #36393F;
+    color: white;
+}
+
+.list-group-item{
+    background-color: #212529; 
+    color: white;
+}

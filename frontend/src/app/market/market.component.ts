@@ -21,9 +21,16 @@ export class MarketComponent implements OnInit {
     "Gem Chest"
   ];
 
+  selectedSection!: String
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  selectSection(id: String) {
+    this.selectedSection = id.replace(' ', '_')
+    console.log(this.selectedSection)
   }
 
 }
