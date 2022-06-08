@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">la.ninja</a>
+    <a class="navbar-brand" href="/">la.ninja</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -8,9 +8,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Market</a>
+          <a class="nav-link active" aria-current="page" href="/">Market</a>
         </li>
       </ul>
     </div>
+    <span class="d-flex navbar-text">
+      Server : 
+    </span>
+    <select class="d-flex form-select" style="width: 10rem;">
+      <option selected value="1">Central Europe</option>
+      <option disabled value="2">Western Europe</option>
+      <option disabled value="3">West North America</option>
+      <option disabled value="4">East North America</option>
+      <option disabled value="5">South America</option>
+    </select>
   </div>
 </nav>

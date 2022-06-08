@@ -1,4 +1,4 @@
-*{
+* {
     /*border: dashed red 1px;*/
 }
 
@@ -7,7 +7,16 @@ body {
     color: white;
 }
 
-.list-group-item{
-    background-color: #212529; 
+.list-group-item {
+    background-color: #212529;
     color: white;
+}
+
+.list-group-item:hover {
+    background-color: #485059;
+}
+
+.form-select{
+    color: white;
+    background-color: #485059;
 }

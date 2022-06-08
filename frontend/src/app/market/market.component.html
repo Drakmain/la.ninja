@@ -5,11 +5,12 @@
         <div class="col-3">
             <h2>Market</h2>
             <ul *ngFor="let section of market" class="list-group m-1">
-                <li type="button" role="button" (click)="selectSection(section)" class="list-group-item">{{section}}</li>
+                <li type="button" role="button" (click)="selectSection(section)" class="list-group-item">{{section}}
+                </li>
             </ul>
         </div>
         <div class="col-8">
-            <h1>Welcome to la.ninja</h1>
+            <app-section [section]="selectedSection"></app-section>
         </div>
     </div>
 </div>

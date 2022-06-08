@@ -21,11 +21,12 @@ export class MarketComponent implements OnInit {
     "Gem Chest"
   ];
 
-  selectedSection!: String
+  selectedSection!: String;
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.selectedSection)
   }
 
   selectSection(id: String) {

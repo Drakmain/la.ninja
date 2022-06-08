@@ -1,0 +1,19 @@
+
+
+<div *ngIf="section == undefined" class="container">
+    <h2>Welcom to la.ninja</h2>
+</div>
+
+<div *ngIf="section != undefined" class="container">
+    <h2>{{section.replace('_', ' ')}}</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div *ngFor="let item of items" class="card text-white bg-dark mb-3" style="width: 50rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{item}}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
