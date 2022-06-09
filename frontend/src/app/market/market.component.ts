@@ -26,12 +26,10 @@ export class MarketComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.selectedSection)
   }
 
-  selectSection(id: String) {
+  async selectSection(id: String) {
     this.selectedSection = id.replace(' ', '_')
-    console.log(this.selectedSection)
   }
 
 }
